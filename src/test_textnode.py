@@ -26,6 +26,11 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("This is another text node", text_type_italic)
         self.assertNotEqual(node, node2)
 
+    def test_eq_false_url(self):
+        node = TextNode("This is a text node", text_type_italic)
+        node2 = TextNode("This is a text node", text_type_italic, "https://www.test.com")
+        self.assertNotEqual(node, node2)
+
     def test_eq_url(self):
         node = TextNode("This is a text node", text_type_link, "https://www.test.com")
         node2 = TextNode("This is a text node", text_type_link, "https://www.test.com")
@@ -33,7 +38,7 @@ class TestTextNode(unittest.TestCase):
 
     def test_repr(self):
         node = TextNode("This is a text node", text_type_code)
-        self.assertEqual(repr(node), "TextNode(This is a text node, code, None)")
+        self.assertEqual(repr(node), "TextNode(text: This is a text node, type: code, url: None)")
 
 
 if __name__ == "__main__":
