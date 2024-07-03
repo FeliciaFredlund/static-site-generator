@@ -9,6 +9,8 @@ class Tag(Enum):
     HEADING1 = "h1"
     HEADING2 = "h2"
     HEADING3 = "h3"
+    CODE = "code"
+    IMAGE = "img"
     LINK = "a"
     BOLD = "b"
     ITALIC = "i"

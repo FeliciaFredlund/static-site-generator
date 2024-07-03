@@ -2,7 +2,13 @@ import unittest
 
 from textnode import (
     TextNode,
-    TextType
+    TextType,
+    text_node_to_html_node
+)
+
+from htmlnode import (
+    LeafNode,
+    Tag
 )
 
 class TestTextNode(unittest.TestCase):
@@ -34,6 +40,32 @@ class TestTextNode(unittest.TestCase):
     def test_repr(self):
         node = TextNode("This is a text node", TextType.CODE)
         self.assertEqual(repr(node), "TextNode(text: This is a text node, type: code, url: None)")
+
+    # Test text_node_to_html_node(text_node)
+
+    def test_textnode_to_html_node1(self):
+        text_node = TextNode("This is a hippo", TextType.TEXT)
+        leaf_node = text_node_to_html_node(text_node)
+        self.assertEqual(
+            repr(leaf_node),
+            repr(LeafNode(Tag.NONE, "This is a hippo"))
+        )
+
+    def test_textnode_to_html_node2(self):
+        text_node = TextNode("This is a link", TextType.LINK, "https://www.test.com")
+        leaf_node = text_node_to_html_node(text_node)
+        self.assertEqual(
+            repr(leaf_node),
+            repr(LeafNode(Tag.LINK, "This is a link", {"href": "https://www.test.com"}))
+        )
+
+    def test_textnode_to_html_node3(self):
+        text_node = TextNode("This is a hippo", TextType.IMAGE, "hippo.jpg")
+        leaf_node = text_node_to_html_node(text_node)
+        self.assertEqual(
+            repr(leaf_node),
+            repr(LeafNode(Tag.IMAGE, "", {"src": "hippo.jpg", "alt": "This is a hippo"}))
+        )
 
 
 if __name__ == "__main__":
