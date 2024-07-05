@@ -5,7 +5,8 @@ from inline_markdown import (
     extract_markdown_images,
     extract_markdown_links,
     split_nodes_image,
-    split_nodes_link
+    split_nodes_link,
+    text_to_textnodes
 )
 
 from textnode import (
@@ -182,6 +183,45 @@ class TestInlineMarkdown(unittest.TestCase):
                 TextNode(" and then more text", TextType.TEXT),
                 TextNode("This is some code and should not be touched", TextType.CODE),
                 TextNode("Just a text node with no links but an ![image](image.jpg)", TextType.TEXT)
+            ]
+        )
+
+
+    def test_text_to_textnodes_one_of_everything(self):
+        text = "This is **text** with an *italic* word and a `code block` and an ![image](https://zjjcJKZ.png) and a [link](https://boot.dev)"
+        nodes = text_to_textnodes(text)
+        self.assertListEqual(
+            nodes,
+            [
+                TextNode("This is ", TextType.TEXT),
+                TextNode("text", TextType.BOLD),
+                TextNode(" with an ", TextType.TEXT),
+                TextNode("italic", TextType.ITALIC),
+                TextNode(" word and a ", TextType.TEXT),
+                TextNode("code block", TextType.CODE),
+                TextNode(" and an ", TextType.TEXT),
+                TextNode("image", TextType.IMAGE, "https://zjjcJKZ.png"),
+                TextNode(" and a ", TextType.TEXT),
+                TextNode("link", TextType.LINK, "https://boot.dev"),
+            ]
+        )
+    
+    def test_text_to_textnodes_two_of_bold_and_links_plus_extra(self):
+        text = "This is **bold** [with](https://link.com) an *italic* word and more **bold** and a [link](https://boot.dev)"
+        nodes = text_to_textnodes(text)
+        self.assertListEqual(
+            nodes,
+            [
+                TextNode("This is ", TextType.TEXT),
+                TextNode("bold", TextType.BOLD),
+                TextNode(" ", TextType.TEXT),
+                TextNode("with", TextType.LINK, "https://link.com"),
+                TextNode(" an ", TextType.TEXT),
+                TextNode("italic", TextType.ITALIC),
+                TextNode(" word and more ", TextType.TEXT),
+                TextNode("bold", TextType.BOLD),
+                TextNode(" and a ", TextType.TEXT),
+                TextNode("link", TextType.LINK, "https://boot.dev"),
             ]
         )
 

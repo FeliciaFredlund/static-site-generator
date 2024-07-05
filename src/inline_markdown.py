@@ -6,6 +6,20 @@ from textnode import (
 )
 
 
+def text_to_textnodes(text):
+    nodes = [TextNode(text, TextType.TEXT)]
+
+    #bold & italic & code
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "*", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+
+    #images & links
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    
+    return nodes
+
 def split_nodes_delimiter(old_nodes, delimiter, text_type : TextType):
     #Always run this one for bold before you do italics, or else the bold will be messed up
     
