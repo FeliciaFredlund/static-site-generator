@@ -72,7 +72,7 @@ class TestParentNode(unittest.TestCase):
     def test_parent_node_to_html_2(self):
         # Testing a parent node with parent nodes and leaf nodes
         parent_node = ParentNode(
-            Tag.DIV,
+            Tag.PARAGRAPH,
             [
                 ParentNode(
                     Tag.PARAGRAPH,
@@ -90,16 +90,16 @@ class TestParentNode(unittest.TestCase):
         )
         self.assertEqual(
             parent_node.to_html(),
-            '<div id="main"><p id="first parent"><i>This is a test of </i><b>a leaf node</b></p><p id="second parent">and parent node</p>This is the leaf node!</div>'
+            '<p id="main"><p id="first parent"><i>This is a test of </i><b>a leaf node</b></p><p id="second parent">and parent node</p>This is the leaf node!</p>'
         )
 
     def test_parent_node_to_html_3(self):
         # Testing parent nodes in parent nodes in parent nodes
         parent_node = ParentNode(
-            Tag.BODY,
+            Tag.DIV,
             [
                 ParentNode(
-                    Tag.DIV,
+                    Tag.PARAGRAPH,
                     [
                         ParentNode(
                             Tag.PARAGRAPH,
@@ -114,7 +114,7 @@ class TestParentNode(unittest.TestCase):
         )
         self.assertEqual(
             parent_node.to_html(),
-            '<body id="first parent"><div id="second parent"><p id="third parent">This is the leaf node!</p></div></body>'
+            '<div id="first parent"><p id="second parent"><p id="third parent">This is the leaf node!</p></p></div>'
         )
 
     

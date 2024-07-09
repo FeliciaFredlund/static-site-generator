@@ -1,20 +1,25 @@
 from enum import Enum
 
 class Tag(Enum):
-    HEAD = "head"
-    BODY = "body"
     DIV = "div"
-    PARAGRAPH = "p"
-    SPAN = "span"
     HEADING1 = "h1"
     HEADING2 = "h2"
     HEADING3 = "h3"
+    HEADING4 = "h4"
+    HEADING5 = "h5"
+    HEADING6 = "h6"
+    PARAGRAPH = "p"
+    QUOTE = "blockquote"
+    UNORDERED_LIST = "ul"
+    ORDERED_LIST = "ol"
+    LIST_ITEM = "li"
+    PRE = "pre"
     CODE = "code"
     IMAGE = "img"
     LINK = "a"
     BOLD = "b"
     ITALIC = "i"
-    NONE = None
+    NONE = None         # Just plain text
 
 class HTMLNode:
     def __init__(self, tag=None, value=None, children=None, props=None):
