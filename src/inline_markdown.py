@@ -36,7 +36,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type : TextType):
         texts = node.text.split(delimiter)
 
         #if the first char is not the delimiter, then it will be text
-        will_be_text_type = node.text[0] is not delimiter
+        will_be_text_type = not node.text.startswith(delimiter)
 
         for text in texts:
             if text == "":

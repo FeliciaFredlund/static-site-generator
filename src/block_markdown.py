@@ -115,7 +115,7 @@ def block_to_heading_node(block):
     return ParentNode(tag, children)
 
 def block_to_code_node(block):
-    block = block.strip("```")
+    block = block.strip("```").strip()
     
     text_nodes = text_to_textnodes(block)
     children = []
