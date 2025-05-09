@@ -12,7 +12,7 @@ def extract_title(markdown):
     
     raise ValueError("Invalid HTML: no h1 title")
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, basepath):
     # Checking that parameter values are valid   
     if not os.path.isfile(from_path):
         raise ValueError("From path is not a file")
@@ -40,7 +40,7 @@ def generate_page(from_path, template_path, dest_path):
     title = extract_title(markdown)
     html_body = markdown_to_html_node(markdown).to_html()
 
-    page = template.replace("{{ Title }}", title).replace("{{ Content }}", html_body)
+    page = template.replace("{{ Title }}", title).replace("{{ Content }}", html_body).replace('href="/', f'href="{basepath}').replace('src="/', f'src="{basepath}')
 
     # Make destination directories
     if not os.path.exists(os.path.dirname(dest_path)):
@@ -49,7 +49,7 @@ def generate_page(from_path, template_path, dest_path):
     with open(dest_path, "w") as f:
         f.write(page)
     
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
     # Checking that parameter values are valid   
     if not os.path.exists(dir_path_content):
         raise ValueError("Content does not exist")
@@ -69,6 +69,6 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         print(f" * {from_path} -> {dest_path}")
         if os.path.isfile(from_path) and from_path.endswith(".md"):           
             dest_path = dest_path[:-3] + ".html"
-            generate_page(from_path, template_path, dest_path)
+            generate_page(from_path, template_path, dest_path, basepath)
         else:
-            generate_pages_recursive(from_path, template_path, dest_path)
+            generate_pages_recursive(from_path, template_path, dest_path, basepath)
